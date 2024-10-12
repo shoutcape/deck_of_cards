@@ -4,14 +4,16 @@ import Card from '../utils/card_svgs';
 
 interface CardProps {
   cardState: string;
+  secondCardState: string;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
-  const { cardState } = props;
+  const { cardState, secondCardState } = props;
 
   return (
     <View style={cardStyles.card}>
-      <Card cardState={cardState} />
+      <Card  cardState={cardState} />
+      <Card  cardState={secondCardState} />
     </View>
   );
 };

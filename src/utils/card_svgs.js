@@ -69,7 +69,7 @@ import PlayingCardBack from '../../assets/svg_cards/playingcardback.svg'
 const cardProps = {
   width: '100%',
   height: '100%',
-  style: { zIndex: 0, position: 'absolute' }
+  position: "absolute"
 };
 
 const cards = {

@@ -2,16 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const cardStyles = StyleSheet.create({
   container: {
-    width: '95%',
+    width: '100%',
     maxWidth: 400,
     aspectRatio: 30 / 43.5,
-    borderRadius: 15,
-    marginTop: 40,
     marginBottom: 40,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginLeft: -13.5,
+    justifyContent: "center",
+    alignSelf: "center"
   },
   button: {
     backgroundColor: '#405cf5',
@@ -23,31 +20,21 @@ const cardStyles = StyleSheet.create({
     marginVertical: 12,
     width: '94%',
     maxWidth: 400,
-    shadowColor: 'rgba(50, 50, 93, .1)',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 3,
     color: '#fff',
     fontSize: 16,
-    transition: 'all .2s,box-shadow .08s ease-in',
   },
   buttonFocus: {
-    shadowColor: 'rgba(50, 50, 93, .1)',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.2,
-    shadowRadius: 15,
-    elevation: 6,
-    borderColor: 'rgba(50, 151, 211, .3)',
-    borderWidth: 4,
+    transform: [{ scaleX: 1.01 }, { scaleY: 1.04 }]
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
+    userSelect: "none"
   },
   card: {
     width: "100%",
     height: "100%",
+    userSelect: "none"
   }
 });
 

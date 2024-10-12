@@ -1,12 +1,16 @@
 import { Pressable, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
-import Cards from './Cards';
+import { useEffect, useRef, useState } from 'react';
 import cardStyles from '../styles/cardStyles';
+import Swiper from 'react-native-deck-swiper';
+import Card from '../utils/card_svgs';
 
 const CardView: React.FC = () => {
-  const [cardState, setCardState] = useState<string>('_blank');
   const [cardDeck, setCardDeck] = useState<string[]>([]);
   const [reset, setReset] = useState<boolean>(false);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [emptyDeck, setEmptyDeck] = useState<boolean>(false);
+  const [cardCount, setCardCount] = useState<number>(52);
+  const swiperRef = useRef(null);
 
   const cardTypes = ['clubs', 'diamonds', 'hearts', 'spades'];
 
@@ -34,33 +38,48 @@ const CardView: React.FC = () => {
     const freshCardDeck = createCardDeck();
     const shuffledCardDeck = shuffleCardDeck(freshCardDeck);
     setCardDeck(shuffledCardDeck);
-    setCardState('_blank');
+    setEmptyDeck(false);
+    setCardCount(52)
   }, [reset]);
-
-  const dismissCard = () => {
-    cardDeck.pop();
-    if (cardDeck.length <= 0) {
-      setCardState('_blank');
-    } else {
-      const length = cardDeck.length;
-      const topCard = cardDeck[length - 1];
-      setCardState(topCard);
-    }
-  };
-
-
 
   return (
     <View>
       <View style={cardStyles.container}>
-        <Cards cardState={cardState} />
+        <Swiper
+          key={reset ? 1 : 0}
+          ref={swiperRef}
+          backgroundColor='none'
+          cards={['_blank', ...cardDeck]}
+          renderCard={(card) => {
+            return (
+              <View style={cardStyles.card}>
+                <Card cardState={card} />
+              </View>
+            );
+          }}
+          onSwipedAll={() => setEmptyDeck(true)}
+          onSwiped={() => setCardCount(cardCount > 0 ? cardCount-1 : 0)}
+          cardStyle={cardStyles.card}
+          containerStyle={cardStyles.container}
+          stackSize={2}
+        />
       </View>
       <View>
-        <Pressable style={cardStyles.button} onPress={dismissCard}>
-          <Text style={cardStyles.buttonText}>Next {cardDeck.length}</Text>
+        <Pressable
+          style={[cardStyles.button, isClicked && cardStyles.buttonFocus]}
+          onPressIn={() => setIsClicked(true)}
+          onPressOut={() => setIsClicked(false)}
+          onPress={() => swiperRef.current.swipeRight()}
+        >
+          <Text style={cardStyles.buttonText}>Next ({cardCount}) </Text>
         </Pressable>
-        {cardDeck.length <= 0 && (
-          <Pressable style={cardStyles.button} onPress={() => setReset(!reset)}>
+        {emptyDeck && (
+          <Pressable
+            style={cardStyles.button}
+            onPressIn={() => setIsClicked(true)}
+            onPressOut={() => setIsClicked(false)}
+            onPress={() => setReset(!reset)}
+          >
             <Text style={cardStyles.buttonText}>Reset</Text>
           </Pressable>
         )}
